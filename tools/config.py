@@ -5,13 +5,13 @@ class Config:
     """
     >>> # pip install -e Qlogger
     # project
-    # └─ config
-    #   └─ __init__.py *
-    #   └─ log.ini
-    import os
-    from Qlogger import Config as config_logger
-    config_dir = os.path.dirname(__file__)
-    config_logger.set_ini_path(os.path.join(config_dir,'log.ini'))
+    #├── project.
+    #└── config 
+    #   └── log.ini* 
+    [section]
+    level   = DEBUG
+    fmt     = <string format>
+    datefmt = <date format>
     """
     # ------------------------------------------------------------------------ #
     config_default = 'config.ini'
