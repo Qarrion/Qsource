@@ -52,5 +52,3 @@ class Config:
             ini_conf = RawConfigParser()
         ini_conf.read(ini_path)
         return ini_conf
-
-import os
