@@ -7,6 +7,7 @@ def read_config(
         filename, 
         parser:Literal['config','rawconfig']='config',
         location:Literal['file','project']='project', 
+        warning:bool = True
         ):
     """
     filename : <filename.ini>
@@ -21,7 +22,7 @@ def read_config(
     filepath = os.path.join(basedir, filename)
 
     # -------------------------------- isfile -------------------------------- #
-    if not os.path.isfile(filepath):
+    if warning and not os.path.isfile(filepath):
         msg = f":::No {filename} file in 'project/config/':::"
         warnings.warn(msg)
         return None
@@ -36,7 +37,7 @@ def read_config(
     conf.read(filepath)
 
     # ------------------------------- isdefault ------------------------------ #
-    if 'default' not in conf.sections():
+    if warning and 'default' not in conf.sections():
         warnings.warn(":::No 'default' section:::")
     # ------------------------------------------------------------------------ #
 
