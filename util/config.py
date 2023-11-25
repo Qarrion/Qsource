@@ -1,57 +1,65 @@
 import os
-import warnings
 from typing import Literal
 from configparser import ConfigParser, RawConfigParser
 
 class Config:
-    def __init__(self, filename, parser:Literal['config','rawconfig']='config', warning = False):
-        self.filename = filename
-        self.parser = parser
-        self.warning = warning
+    def __init__(self, filename, parser:Literal['config','rawconfig']='config', debug = False):
+        self._filename = filename
+        self._parser = parser
+        self._debug = debug
         if parser == 'config':
             self.config = ConfigParser()
         elif parser == 'rawconfig':
             self.config = RawConfigParser()
     
-    def _read_process(self, filepath):
+    def _read_process(self, filepath, debug=None):
+        # rela_path = os.path.relpath(filepath, os.getcwd())
         if os.path.isfile(filepath):
             self.config.read(filepath)
+            self._debug_process(f'config_{debug} ({filepath})', 'done')
             return self.config
         else:
-            if self.warning:
-                curr_path = os.getcwd()
-                rela_path = os.path.relpath(filepath, curr_path)
-                warnings.warn( f":::No file in './{rela_path}/':::")
+            self._debug_process(f'config_{debug} ({filepath})', 'fail')
             return None    
 
-    def read_projdir(self, folder):
-        """+ folder : project/<folder>/"""
-        filepath = os.path.join(os.getcwd(), folder, self.filename)
-        return self._read_process(filepath)
+    def _debug_process(self, msg, status:Literal['done', 'fail']):
+        green = "\033[32m"
+        red = "\033[31m"
+        reset = "\033[0m"
+        if self._debug:
+            if status=='done':
+                print(f"{green}->> Done {msg} {reset}")
+            elif status =='fail':
+                print(f"{red}->> Fail{msg} {reset}")
 
-    def read_filedir(self, file):
+    def read_projdir(self, child):
+        """+ folder : project/<folder>/"""                      
+        filepath = os.path.join(os.getcwd(), child, self._filename)
+        return self._read_process(filepath,'project')
+
+    def read_filedir(self, dunderfile):
         """+ file : __file__"""
-        filepath = os.path.join(os.path.dirname(file), self.filename)
-        return self._read_process(filepath)
-
-        # if os.path.isfile(filepath):
-        #     self.config.read(filepath)
-        #     return self.config
-        # else:
-        #     return None        
+        filepath = os.path.join(os.path.dirname(dunderfile), self._filename)
+        return self._read_process(filepath,'filedir') 
         
     def read_libdir(self, filename='default.ini'):
         """+ filename : default fallback file"""
         filepath = os.path.join(os.path.dirname(__file__), filename)
-        return self._read_process(filepath)
-        # if os.path.isfile(filepath):
-        #     self.config.read(filepath)
-        #     return self.config
-        # else:
-        #     return None 
-           
+        return self._read_process(filepath,'libdir')
+    
     def is_section(self, section):
         if section not in self.config.sections():
+            self._debug_process(f'section ({section})', 'fail')
             return None
         else :
+            self._debug_process(f'section ({section})', 'done')
             return section
+
+if __name__ == "__main__":
+    config = Config(filename='nofile.ini', debug=True)
+    if config.read_projdir(child='config') is None :
+        if config.read_filedir(dunderfile=__file__) is None:
+            if config.read_libdir(filename='default.ini'):
+                if config.is_section('test') is None:
+                    config.is_section('default')
+                    print(config.config.get('default', 'level'))
