@@ -30,21 +30,21 @@ class Config:
             if status=='done':
                 print(f"{green}->> Done {msg} {reset}")
             elif status =='fail':
-                print(f"{red}->> Fail{msg} {reset}")
+                print(f"{red}->> Fail {msg} {reset}")
 
-    def read_projdir(self, child):
-        """+ folder : project/<folder>/"""                      
-        filepath = os.path.join(os.getcwd(), child, self._filename)
+    def read_projdir(self, child_dir):
+        """+ child_dir : project/<child_dir>/"""                      
+        filepath = os.path.join(os.getcwd(), child_dir, self._filename)
         return self._read_process(filepath,'project')
 
-    def read_filedir(self, dunderfile):
-        """+ file : __file__"""
-        filepath = os.path.join(os.path.dirname(dunderfile), self._filename)
+    def read_filedir(self, dunder_file):
+        """+ dunder_file : __file__"""
+        filepath = os.path.join(os.path.dirname(dunder_file), self._filename)
         return self._read_process(filepath,'filedir') 
         
-    def read_libdir(self, filename='default.ini'):
-        """+ filename : default fallback file"""
-        filepath = os.path.join(os.path.dirname(__file__), filename)
+    def read_libdir(self, fallback_file='default.ini'):
+        """+ fallback_file : default fallback file"""
+        filepath = os.path.join(os.path.dirname(__file__), fallback_file)
         return self._read_process(filepath,'libdir')
     
     def is_section(self, section):
@@ -57,9 +57,9 @@ class Config:
 
 if __name__ == "__main__":
     config = Config(filename='nofile.ini', debug=True)
-    if config.read_projdir(child='config') is None :
-        if config.read_filedir(dunderfile=__file__) is None:
-            if config.read_libdir(filename='default.ini'):
+    if config.read_projdir(child_dir='config') is None :
+        if config.read_filedir(dunder_file=__file__) is None:
+            if config.read_libdir(fallback_file='default.ini'):
                 if config.is_section('test') is None:
                     config.is_section('default')
                     print(config.config.get('default', 'level'))
