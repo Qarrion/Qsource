@@ -59,7 +59,7 @@ if __name__ == "__main__":
     config = Config(filename='nofile.ini', debug=True)
     if config.read_projdir(child_dir='config') is None :
         if config.read_filedir(dunder_file=__file__) is None:
-            if config.read_libdir(fallback_file='default.ini'):
-                if config.is_section('test') is None:
-                    config.is_section('default')
-                    print(config.config.get('default', 'level'))
+            config.read_libdir(fallback_file='default.ini')
+    if config.is_section('test') is None:
+        config.is_section('default')
+        print(config.config.get('default', 'level'))
