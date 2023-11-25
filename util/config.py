@@ -49,10 +49,13 @@ class Config:
     
     def is_section(self, section):
         if section not in self.config.sections():
+            self.section = None
             self._debug_process(f'section ({section})', 'fail')
             return None
         else :
-            self._debug_process(f'section ({section})', 'done')
+            self.section = section
+            self.item = self.config.options(section)
+            self._debug_process(f'section ({section}) item {self.item}', 'done')
             return section
 
 if __name__ == "__main__":
