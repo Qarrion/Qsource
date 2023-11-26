@@ -3,6 +3,8 @@ import threading
 import contextvars
 from typing import Literal
 
+# sub class in Qlogger
+
 class CustomLog:
     def __init__(self, logger:logging.Logger,
                  context:Literal['sync', 'thread', 'async'] = 'sync'):
