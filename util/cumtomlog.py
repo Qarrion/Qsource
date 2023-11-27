@@ -77,3 +77,29 @@ class _Async:
     @level.setter
     def level(self, value):
         self._level.set(value)
+
+if __name__ == "__main__":
+    
+    logger = logging.getLogger('mylogger')
+    logger.setLevel(logging.DEBUG) 
+    handler = logging.StreamHandler() 
+    handler.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    handler.setFormatter(formatter)
+    logger.addHandler(handler)
+
+    class Log(CustomLog):
+        def custom_msg(self, module, status, msg):
+            header=f":: {module:<10} {status:<10}"
+            self.msg(header + msg)
+
+        def _module01_init(self):
+            self.custom_msg('mod01', 'init', 'test_custom')
+
+        def _module02_start(self):
+            self.custom_msg('mod02', 'start', 'test_custom')
+    
+
+    mylogger = Log(logger, 'sync')
+    mylogger.info._module01_init()
+    mylogger.debug._module02_start()
