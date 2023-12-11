@@ -45,3 +45,11 @@ async def main():
  
 # entry point
 asyncio.run(main())
+
+
+# Hello from coroutine 1
+# Hello from coroutine 2
+# Hello from coroutine 2
+# Task1: done=True, cancelled=True
+# Task2: done=True, cancelled=False
+# Task3: done=True, cancelled=True
