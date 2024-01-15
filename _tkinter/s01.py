@@ -47,6 +47,7 @@ frame_bottom.grid(row=1, sticky="nsew")
 frame_bottom.grid_columnconfigure(0,weight=1)
 frame_bottom.grid_rowconfigure(0,weight=1)
 
+cef.Initialize()
 frame = cef.CreateBrowserSync(window_info=cef.WindowInfo(root.winfo_id()),
                                 url="https://www.example.com")
 frame.SetAsChild(root.winfo_id(), [0, 0, 800, 600])

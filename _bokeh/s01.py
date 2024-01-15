@@ -34,7 +34,6 @@ bokeh_app = Application(FunctionHandler(modify_doc))
 # 서버 시작
 server = Server({'/': bokeh_app}, port=5000)  # 포트 5000에서 시작
 server.start()
-print(server.address)
 # 서버가 바로 종료되지 않도록 무한 루프 실행
 server.io_loop.start()
 
