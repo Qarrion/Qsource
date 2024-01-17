@@ -1,6 +1,6 @@
 import pandas as pd
 
-data = pd.read_excel('AAPL.xlsx',index_col=0)
+# data = pd.read_excel('AAPL.xlsx',index_col=0)
 data.index.name = 'DT'
 data = data.drop(columns=['Adj Close'])
 data.columns = ['O','H','L','C','V']
