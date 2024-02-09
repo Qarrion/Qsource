@@ -65,6 +65,7 @@ v5.setXLink(v3)
 l5 = pg.PlotDataItem(y)
 v5.addItem(l5)
 
+# ---------------------------------------------------------------------------- #
 sub6 = win.addLayout()
 sub6.addLabel("<b>Disable mouse:</b> Per-axis control over mouse input.<br>"
               "<b>Auto-scale-visible:</b> Automatically fit *visible* data within view<br>"

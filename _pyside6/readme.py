@@ -1,3 +1,6 @@
+# https://doc.qt.io/qtforpython-6/examples/index.html
+
+
 # https://doc.qt.io/qtforpython-6/quickstart.html
 
 import PySide6.QtCore

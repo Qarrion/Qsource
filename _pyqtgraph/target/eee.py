@@ -22,7 +22,6 @@ class CandlestickItem(pg.GraphicsObject):
         self.picture = QtGui.QPicture()
         p = QtGui.QPainter(self.picture)
         p.setPen(pg.mkPen('w'))
-
         w = (self.data[1][0] - self.data[0][0]) / 3.
         for (t, open, close, min, max) in self.data:
             p.drawLine(QtCore.QPointF(t, min), QtCore.QPointF(t, max))
@@ -53,7 +52,18 @@ data = [  ## fields are (time, open, close, min, max).
 item = CandlestickItem(data)
 plt = pg.plot()
 plt.addItem(item)
-plt.setWindowTitle('pyqtgraph example: customGraphicsItem')
+def updateYRange():
+    view_range = plt.getViewBox().viewRange()
+    minY, maxY = view_range[1]  # y 범위 값 추출
+    plt.setYRange(minY, maxY)  # y 범위 설정
+
+# 그래프 뷰의 범위 변경 이벤트 핸들러 등록
+plt.getViewBox().sigRangeChanged.connect(updateYRange)
 
 if __name__ == '__main__':
     pg.exec()
+
+
+# plt.setAutoVisible(y=True)
+# plt.setMouseEnabled(x=True, y=False)
+# plt.setWindowTitle('pyqtgraph example: customGraphicsItem')

@@ -1,12 +1,13 @@
 import pandas as pd
 
 
-# import yfinance as yf
-# df = yf.desload("AAPL", start="2024-01-01", end="2024-1-10", interval='5m', progress=False)
-# df.index = pd.to_datetime(df.index)
-# df.index = df.index.tz_localize(None)
+import yfinance as yf
+df = yf.download("AAPL", start="2024-01-15", end="2024-1-22", interval='1m', progress=False)
+df.index = pd.to_datetime(df.index)
+df
+df.index = df.index.tz_localize(None)
 
-# df.to_excel('AAPL.xlsx')
+df.to_excel('AAPL2.xlsx')
 
 
 data = pd.read_excel('AAPL.xlsx',index_col=0)
